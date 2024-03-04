@@ -2,19 +2,20 @@ import {BsTwitter} from "react-icons/bs"
 import {GoHomeFill} from "react-icons/go"
 import {FaHashtag} from "react-icons/fa6"
 import {PiBell} from "react-icons/pi"
-import { CgMail } from "react-icons/cg";
-import { RiFileList2Line } from "react-icons/ri";
-import { LuBookmark } from "react-icons/lu";
-import { FaUserGroup } from "react-icons/fa6";
-import { FaRegUser } from "react-icons/fa6";
-import { CgMoreO } from "react-icons/cg";
-import FeedCard from "@/components/FeedCard/page";
+import { CgMail } from "react-icons/cg"
+import { LuBookmark } from "react-icons/lu"
+import { FaRegUser } from "react-icons/fa6"
+import GoogleContainer from "@/components/googleContainer/page"
+import TweetCard from "@/components/TweetCard/page"
+import FeedContainer from "@/components/FeedContainer/page"
 
-export default function Home() {
+
+export default  function Home() {
   interface TwitterSidebarButton {
     title:string,
     icon:React.ReactNode
   }
+  
   const sidebarMenuItems:TwitterSidebarButton[]= [
     {
       title:"Home",
@@ -32,31 +33,19 @@ export default function Home() {
       title:"Message",
       icon:<CgMail/>
     },
-    // {
-    //   title:"Lists",
-    //   icon:<RiFileList2Line/>
-    // },
+   
     {
       title:"Bookmarks",
       icon:<LuBookmark/>
     },
-    // {
-    //   title:"Communities",
-    //   icon:<FaUserGroup/>
-    // },
-    // {
-    //   title:"Premium",
-    //   icon:<BsTwitter/>
-    // },
+    
     {
       title:"Profile",
       icon:<FaRegUser/>
     },
-    // {
-    //   title:"More",
-    //   icon:<CgMoreO/>
-    // }
-  ]
+    
+  ];
+
   return (
   <div>
     <div className="grid px-28 text-white grid-cols-12 h-screen w-screen">
@@ -74,22 +63,13 @@ export default function Home() {
         </div>
       </div>
       <div className="col-span-6 border-x-[1px] no-scrollbar  h-screen overflow-scroll  border-x-slate-500 ">
-        <FeedCard/>
-        <FeedCard/>
-        <FeedCard/>
-        <FeedCard/>
-        <FeedCard/>
-        <FeedCard/>
-        <FeedCard/>
-        <FeedCard/>
-        <FeedCard/>
-        <FeedCard/>
-        <FeedCard/>
-        <FeedCard/>
-        <FeedCard/>
-        <FeedCard/>
+        <TweetCard/>
+       <FeedContainer/>
       </div>
-      <div className="col-span-3 text-black ">right</div>
+      <div className="col-span-3 text-black ">
+        
+          <GoogleContainer/>
+      </div>
     </div>
   </div>
   );

@@ -44,3 +44,6 @@ body {
     text-wrap: balance;
   }
 }
+textarea:focus , input:focus {
+  outline: none;
+}
