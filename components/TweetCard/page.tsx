@@ -6,6 +6,7 @@ import { CreateTweetData } from '@/type';
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import Image from 'next/image'
 import React, { useCallback, useState } from 'react'
+import toast from 'react-hot-toast';
 import { IoMdImage } from "react-icons/io";
 const tempTweetData= {
     content:"",
@@ -14,11 +15,12 @@ const tempTweetData= {
 export default function TweetCard() {
     const{ refetch ,data:newdata,loading}= useGetAllTweet()  
     const{data:userInfo} = useCurrentUser()
-    const CurrentUserProfileImg = userInfo?.getCurrentUser.profileImageUrl?userInfo?.getCurrentUser.profileImageUrl:"https://avatars.githubusercontent.com/u/102781692?u=2717617b3532445980809ba1f53717cf85c549a2&v=4"
+    const CurrentUserProfileImg = userInfo?.getCurrentUser?.profileImageUrl?userInfo?.getCurrentUser?.profileImageUrl:"https://avatars.githubusercontent.com/u/102781692?u=2717617b3532445980809ba1f53717cf85c549a2&v=4"
   const [createTweet,{data}] = useMutation(CREATE_TWEET)
   const [tweetData,setTweetData] = useState(tempTweetData);
   if(data){
-    refetch();
+    toast.success("tweet added",{id:"1"})
+    // refetch();
   }
 //   console.log(data)
   const handleSelectImage = useCallback(async()=>{
@@ -29,7 +31,9 @@ export default function TweetCard() {
        setTweetData({...tweetData,["imageURL"]:input.value})
   },[])
   function onCreateTweet(){
+    if(!userInfo?.getCurrentUser?.profileImageUrl) { console.log("please login first"); return}
     console.log(tweetData)
+    toast.loading("tweet adding",{id:"1"})
      createTweet({
         variables:{
             payload: tweetData

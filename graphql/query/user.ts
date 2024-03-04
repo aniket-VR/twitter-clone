@@ -13,7 +13,29 @@ query Query {
     id
     firstName
     email
+    tweets {
+      content
+      author {
+        profileImageUrl
+      }
+    }
   }
 }
 `;
-
+export const GET_USER_WITH_ID =gql`
+query GetUserFromId($getUserFromIdId: String!) {
+  getUserFromId(id: $getUserFromIdId) {
+    firstName
+    profileImageUrl
+    lastName
+    id
+    tweets {
+      content
+      imageURL
+      author {
+        profileImageUrl
+      }
+    }
+  }
+}
+`

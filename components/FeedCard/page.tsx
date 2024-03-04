@@ -7,6 +7,7 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { MdOutlineFileUpload } from "react-icons/md";
 import { useQuery } from '@apollo/client';
 import { Tweet } from '@/type';
+import Link from 'next/link';
 
 export default function FeedCard({tweetData}:{tweetData:Tweet}) {
   
@@ -18,7 +19,7 @@ export default function FeedCard({tweetData}:{tweetData:Tweet}) {
                 <Image alt='user-image' className='rounded-full' height={50} width={50} src={tweetData.author.profileImageUrl } />
             </div>
             <div className='col-span-11 text-sm '>
-              <h5>Aniket Rohokale</h5>
+             <Link href={`/${tweetData.author.id}`}> <h5>Aniket Rohokale</h5></Link>
               <p>{tweetData.content}</p>
               <div className='flex mt-4 justify-between text-xl'>
                 <div>

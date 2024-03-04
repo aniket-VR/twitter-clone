@@ -17,6 +17,7 @@ query Query {
     imageURL
     author {
       profileImageUrl
+      id
     }
   }
 }
