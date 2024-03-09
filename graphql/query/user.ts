@@ -50,8 +50,12 @@ export const GET_USER_WITH_ID = gql`
       tweets {
         content
         imageURL
+        id
         author {
           profileImageUrl
+          firstName
+          lastName
+          id
         }
       }
       followers {

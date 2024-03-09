@@ -12,6 +12,7 @@ export const CREATE_TWEET = gql`
 export const GET_ALL_TWEET = gql`
   query Query {
     getAllTweet {
+      id
       content
       imageURL
       author {
@@ -26,5 +27,11 @@ export const GET_ALL_TWEET = gql`
 export const SIGN_URL = gql`
   query Query($imageType: String!) {
     getSignedURLForTweet(imageType: $imageType)
+  }
+`;
+
+export const DELETE_TWEET = gql`
+  query Query($id: String!) {
+    deleteTwitte(id: $id)
   }
 `;

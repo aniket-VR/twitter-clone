@@ -13,13 +13,14 @@ import { useMutation } from "@apollo/client";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
 export default function page() {
   const params = useParams();
   const [followUser, { data: followUserStatus }] = useMutation(FOLLOW_USER);
   const [unfollowUser, { data: unfollow }] = useMutation(UNFOLLOW_USER);
-  const { data: currentUser } = useCurrentUser();
+  const { data: currentUser, refetch: currentUserRefetch } = useCurrentUser();
   const [checkFollowStatus, { data: followStatusM }] =
     useMutation(CHECK_FOLLOW_STATUS);
   const { data, loading, refetch } = useGetUserWithId(params.id as string);
@@ -81,6 +82,7 @@ export default function page() {
                     {followStatus ? (
                       <button
                         onClick={() => {
+                          toast.loading("Unfollowing", { id: "4" });
                           unfollowUser({
                             variables: {
                               to: params.id,
@@ -91,6 +93,8 @@ export default function page() {
                                 getUserFromIdId: params.id,
                               },
                             });
+                            currentUserRefetch();
+                            toast.success("Unfollowed", { id: "4" });
                             setFollowStatus(false);
                           });
                         }}
@@ -101,6 +105,7 @@ export default function page() {
                     ) : (
                       <button
                         onClick={() => {
+                          toast.loading("following", { id: "5" });
                           followUser({
                             variables: {
                               to: params.id,
@@ -111,6 +116,8 @@ export default function page() {
                                 getUserFromIdId: params.id,
                               },
                             });
+                            currentUserRefetch();
+                            toast.success("followed", { id: "5" });
                             setFollowStatus(true);
                           });
                         }}
@@ -127,7 +134,13 @@ export default function page() {
         </div>
         <div className="">
           {data?.getUserFromId?.tweets.map((tweetItem: Tweet) => (
-            <FeedCard tweetData={tweetItem} />
+            <FeedCard
+              tweetData={tweetItem}
+              currentStatus={
+                currentUser?.getCurrentUser?.id === data?.getUserFromId?.id
+              }
+              refetch={refetch}
+            />
           ))}
         </div>
       </div>
