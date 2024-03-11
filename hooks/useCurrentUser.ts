@@ -3,5 +3,6 @@ import { useQuery } from "@apollo/client";
 
 export const useCurrentUser = () => {
   const data = useQuery(VERIFY_CURRENT_USER);
+  console.log("getcurrentuser");
   return { ...data };
 };

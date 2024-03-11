@@ -5,6 +5,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { TwitterLayout } from "@/components/layout/TwitterLayout";
 import { Toaster } from "react-hot-toast";
 import Provider from "@/components/provider";
+import socketClient from "@/client/socket";
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Create Next App",

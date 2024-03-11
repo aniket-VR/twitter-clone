@@ -7,8 +7,19 @@ import {
   InMemoryCache,
   concat,
 } from "@apollo/client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { Socket, io } from "socket.io-client";
+import { createContext } from "react";
+const socket = io(`http://localhost:8000`, {
+  transports: ["websocket"],
+});
 
+interface context {
+  socket: Socket;
+}
+const socketContext = createContext<context>({ socket });
+
+export const useSocket = () => useContext<context>(socketContext);
 export default function Provider({ children }: { children: React.ReactNode }) {
   const httpLink = new HttpLink({
     uri: "http://localhost:8000/graphql",

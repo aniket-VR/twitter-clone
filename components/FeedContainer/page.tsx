@@ -6,7 +6,7 @@ import FeedCard from "../FeedCard/page";
 import { useGetAllTweet } from "@/hooks/useGetAllTweet";
 
 export default function FeedContainer() {
-  const { data } = useGetAllTweet();
+  const { refetch, data } = useGetAllTweet();
   if (!data?.getAllTweet)
     return (
       <div className=" flex items-center justify-center w-full h-full ">
@@ -17,7 +17,12 @@ export default function FeedContainer() {
     <>
       {data?.getAllTweet ? (
         data?.getAllTweet.map((item: Tweet, key: Key) => (
-          <FeedCard key={key} currentStatus={false} tweetData={item} />
+          <FeedCard
+            refetch={refetch}
+            key={key}
+            currentStatus={false}
+            tweetData={item}
+          />
         ))
       ) : (
         <h1>No tweet</h1>

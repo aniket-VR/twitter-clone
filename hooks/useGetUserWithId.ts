@@ -7,5 +7,6 @@ export const useGetUserWithId = (id: string) => {
       getUserFromIdId: id,
     },
   });
+  console.log("userid");
   return { data, loading, refetch };
 };

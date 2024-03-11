@@ -22,43 +22,40 @@ interface TwitterSidebarButton {
 export default function LeftMenu() {
   const { data } = useCurrentUser();
 
-  const sidebarMenuItems: TwitterSidebarButton[] = useMemo(
-    () => [
-      {
-        title: "Home",
-        icon: <GoHomeFill />,
-        link: "/",
-      },
-      {
-        title: "Explore",
-        icon: <FaHashtag />,
-        link: "/explore",
-      },
-      {
-        title: "Notifications",
-        icon: <PiBell />,
-        link: "pibell",
-      },
-      {
-        title: "Message",
-        icon: <CgMail />,
-        link: "message",
-      },
+  const sidebarMenuItems: TwitterSidebarButton[] = [
+    {
+      title: "Home",
+      icon: <GoHomeFill />,
+      link: "/",
+    },
+    {
+      title: "Explore",
+      icon: <FaHashtag />,
+      link: "/explore",
+    },
+    {
+      title: "Notifications",
+      icon: <PiBell />,
+      link: "/pibell",
+    },
+    {
+      title: "Message",
+      icon: <CgMail />,
+      link: "/message",
+    },
 
-      {
-        title: "Bookmarks",
-        icon: <LuBookmark />,
-        link: "bookmarks",
-      },
+    {
+      title: "Bookmarks",
+      icon: <LuBookmark />,
+      link: "/bookmarks",
+    },
 
-      {
-        title: "Profile",
-        icon: <FaRegUser />,
-        link: `${data?.getCurrentUser?.id}`,
-      },
-    ],
-    [data?.getCurrentUser?.id]
-  );
+    {
+      title: "Profile",
+      icon: <FaRegUser />,
+      link: `/${data?.getCurrentUser?.id}`,
+    },
+  ];
   const CurrentUserProfileImg = data?.getCurrentUser?.profileImageUrl
     ? data?.getCurrentUser?.profileImageUrl
     : profile_url;

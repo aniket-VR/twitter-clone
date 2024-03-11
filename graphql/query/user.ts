@@ -73,3 +73,13 @@ export const GET_USER_WITH_ID = gql`
     }
   }
 `;
+export const GET_FOLLOWING = gql`
+  query GetFollowing {
+    getFollowing {
+      firstName
+      lastName
+      profileImageUrl
+      id
+    }
+  }
+`;
