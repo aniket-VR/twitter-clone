@@ -40,3 +40,8 @@ export const LIKE_TWEET = gql`
     likeTweet(tweetId: $tweetId)
   }
 `;
+export const BOOKMARK_TWEET = gql`
+  query Query($tweetId: String!) {
+    bookmarkTweet(tweetId: $tweetId)
+  }
+`;

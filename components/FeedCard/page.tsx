@@ -10,7 +10,11 @@ import { MdOutlineFileUpload } from "react-icons/md";
 import { ApolloQueryResult, useLazyQuery, useQuery } from "@apollo/client";
 import { Tweet } from "@/type";
 import Link from "next/link";
-import { DELETE_TWEET, LIKE_TWEET } from "@/graphql/query/tweet";
+import {
+  BOOKMARK_TWEET,
+  DELETE_TWEET,
+  LIKE_TWEET,
+} from "@/graphql/query/tweet";
 import toast from "react-hot-toast";
 
 export default function FeedCard({
@@ -32,11 +36,24 @@ export default function FeedCard({
       tweetId: tweetData.id as String,
     },
   });
+  const { data: bookmarkData, refetch: bookmarkRefetch } = useQuery(
+    BOOKMARK_TWEET,
+    {
+      variables: {
+        tweetId: tweetData.id as String,
+      },
+    }
+  );
   const [tweetLikeStatus, setTweetLikeStatus] = useState<Boolean>(false);
+  const [bookMarkStatus, setBookMarkStatus] = useState<Boolean>(false);
+
   useEffect(() => {
     tweetLikeRefetch().then((resp) => {
       console.log(resp);
       setTweetLikeStatus(resp.data.likeTweet);
+    });
+    bookmarkRefetch().then((resp) => {
+      setBookMarkStatus(resp.data.bookmarkTweet);
     });
   }, []);
 
@@ -118,7 +135,23 @@ export default function FeedCard({
               </div>
             </div>
             <div>
-              <MdOutlineFileUpload />
+              <div
+                onClick={() => {
+                  toast.loading("tweet bookmark changing", { id: "5" });
+                  bookmarkRefetch().then((resp) => {
+                    resp.data.likeTweet
+                      ? toast.success("tweet bookmarked", { id: "5" })
+                      : toast.success("tweet unbookmarked", { id: "5" });
+                    setBookMarkStatus(resp.data.bookmarkTweet);
+                  });
+                }}
+              >
+                <MdOutlineFileUpload
+                  className={`${
+                    bookMarkStatus ? "text-red-700" : "text-white"
+                  }`}
+                />
+              </div>
             </div>
           </div>
         </div>
