@@ -12,6 +12,7 @@ import profile_url from "../constant/profile.png";
 import Image from "next/image";
 import Link from "next/link";
 import { useSuspenseQuery } from "@apollo/client";
+import { useRouter } from "next/router";
 
 interface TwitterSidebarButton {
   title: string;
@@ -19,43 +20,43 @@ interface TwitterSidebarButton {
   link: string;
 }
 
+const sidebarMenuItems: TwitterSidebarButton[] = [
+  {
+    title: "Home",
+    icon: <GoHomeFill />,
+    link: "/",
+  },
+  {
+    title: "Explore",
+    icon: <FaHashtag />,
+    link: "/explore",
+  },
+  {
+    title: "Notifications",
+    icon: <PiBell />,
+    link: "/pibell",
+  },
+  {
+    title: "Message",
+    icon: <CgMail />,
+    link: "/message",
+  },
+
+  {
+    title: "Bookmarks",
+    icon: <LuBookmark />,
+    link: "/bookmarks",
+  },
+
+  {
+    title: "Profile",
+    icon: <FaRegUser />,
+    link: `/profile`,
+  },
+];
 export default function LeftMenu() {
   const { data } = useCurrentUser();
 
-  const sidebarMenuItems: TwitterSidebarButton[] = [
-    {
-      title: "Home",
-      icon: <GoHomeFill />,
-      link: "/",
-    },
-    {
-      title: "Explore",
-      icon: <FaHashtag />,
-      link: "/explore",
-    },
-    {
-      title: "Notifications",
-      icon: <PiBell />,
-      link: "/pibell",
-    },
-    {
-      title: "Message",
-      icon: <CgMail />,
-      link: "/message",
-    },
-
-    {
-      title: "Bookmarks",
-      icon: <LuBookmark />,
-      link: "/bookmarks",
-    },
-
-    {
-      title: "Profile",
-      icon: <FaRegUser />,
-      link: `/${data?.getCurrentUser?.id}`,
-    },
-  ];
   const CurrentUserProfileImg = data?.getCurrentUser?.profileImageUrl
     ? data?.getCurrentUser?.profileImageUrl
     : profile_url;

@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FiMessageCircle } from "react-icons/fi";
 import { BiRepost } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
@@ -10,7 +10,7 @@ import { MdOutlineFileUpload } from "react-icons/md";
 import { ApolloQueryResult, useLazyQuery, useQuery } from "@apollo/client";
 import { Tweet } from "@/type";
 import Link from "next/link";
-import { DELETE_TWEET } from "@/graphql/query/tweet";
+import { DELETE_TWEET, LIKE_TWEET } from "@/graphql/query/tweet";
 import toast from "react-hot-toast";
 
 export default function FeedCard({
@@ -23,6 +23,23 @@ export default function FeedCard({
   refetch: () => void;
 }) {
   const [deleteTweetQuery, { data }] = useLazyQuery(DELETE_TWEET);
+  const {
+    data: likeData,
+    loading,
+    refetch: tweetLikeRefetch,
+  } = useQuery(LIKE_TWEET, {
+    variables: {
+      tweetId: tweetData.id as String,
+    },
+  });
+  const [tweetLikeStatus, setTweetLikeStatus] = useState<Boolean>(false);
+  useEffect(() => {
+    tweetLikeRefetch().then((resp) => {
+      console.log(resp);
+      setTweetLikeStatus(resp.data.likeTweet);
+    });
+  }, []);
+
   return (
     <div className="border-b-[1px] border-gray-600 p-4 hover:bg-slate-900 transition-all cursor-pointer">
       <div className="grid grid-cols-12 gap-2 ">
@@ -54,9 +71,10 @@ export default function FeedCard({
               <div
                 onClick={() => {
                   toast.loading("Tweet deleting", { id: "2" });
+
                   deleteTweetQuery({
                     variables: {
-                      id: tweetData?.id,
+                      id: tweetData.id + tweetLikeStatus,
                     },
                   }).then((resp) => {
                     console.log(resp);
@@ -81,7 +99,23 @@ export default function FeedCard({
             </div>
 
             <div>
-              <IoIosHeartEmpty />
+              <div
+                onClick={() => {
+                  toast.loading("tweet status changing", { id: "5" });
+                  tweetLikeRefetch().then((resp) => {
+                    resp.data.likeTweet
+                      ? toast.success("tweet liked", { id: "5" })
+                      : toast.success("tweet unliked", { id: "5" });
+                    setTweetLikeStatus(resp.data.likeTweet);
+                  });
+                }}
+              >
+                <IoIosHeartEmpty
+                  className={`${
+                    tweetLikeStatus ? "text-red-700" : "text-white"
+                  }`}
+                />
+              </div>
             </div>
             <div>
               <MdOutlineFileUpload />

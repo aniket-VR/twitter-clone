@@ -35,3 +35,8 @@ export const DELETE_TWEET = gql`
     deleteTwitte(id: $id)
   }
 `;
+export const LIKE_TWEET = gql`
+  query Query($tweetId: String!) {
+    likeTweet(tweetId: $tweetId)
+  }
+`;
