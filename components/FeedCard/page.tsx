@@ -24,26 +24,38 @@ export default function FeedCard({
 }: {
   tweetData: Tweet;
   currentStatus: Boolean;
-  refetch: () => void;
+  refetch?: () => void;
 }) {
   const [deleteTweetQuery, { data }] = useLazyQuery(DELETE_TWEET);
-  const {
-    data: likeData,
-    loading,
-    refetch: tweetLikeRefetch,
-  } = useQuery(LIKE_TWEET, {
-    variables: {
-      tweetId: tweetData.id as String,
-    },
-  });
-  const { data: bookmarkData, refetch: bookmarkRefetch } = useQuery(
+  const [reee, { data: likeData, loading, refetch: tweetLikeRefetch }] =
+    useLazyQuery(LIKE_TWEET, {
+      variables: {
+        tweetId: tweetData.id as String,
+        check: true,
+      },
+    });
+  const [re, { data: bookmarkData, refetch: bookmarkRefetch }] = useLazyQuery(
     BOOKMARK_TWEET,
     {
       variables: {
         tweetId: tweetData.id as String,
+        check: true,
       },
     }
   );
+
+  const [res, { refetch: tweetLikeRefetchDo }] = useLazyQuery(LIKE_TWEET, {
+    variables: {
+      tweetId: tweetData.id as String,
+      check: false,
+    },
+  });
+  const [ress, { refetch: bookmarkRefetchDo }] = useLazyQuery(BOOKMARK_TWEET, {
+    variables: {
+      tweetId: tweetData.id as String,
+      check: false,
+    },
+  });
   const [tweetLikeStatus, setTweetLikeStatus] = useState<Boolean>(false);
   const [bookMarkStatus, setBookMarkStatus] = useState<Boolean>(false);
 
@@ -91,12 +103,12 @@ export default function FeedCard({
 
                   deleteTweetQuery({
                     variables: {
-                      id: tweetData.id + tweetLikeStatus,
+                      id: tweetData.id,
                     },
                   }).then((resp) => {
                     console.log(resp);
-                    if (resp.data.deleteTwitte) {
-                      refetch();
+                    if (resp.data?.deleteTwitte) {
+                      if (refetch) refetch();
                       toast.success("Tweeet Deleted", { id: "2" });
                     } else toast.success("Failed to delete", { id: "2" });
                   });
@@ -105,7 +117,7 @@ export default function FeedCard({
                 <MdDelete />
               </div>
             ) : (
-              ""
+              " "
             )}
 
             <div>
@@ -119,7 +131,7 @@ export default function FeedCard({
               <div
                 onClick={() => {
                   toast.loading("tweet status changing", { id: "5" });
-                  tweetLikeRefetch().then((resp) => {
+                  tweetLikeRefetchDo().then((resp) => {
                     resp.data.likeTweet
                       ? toast.success("tweet liked", { id: "5" })
                       : toast.success("tweet unliked", { id: "5" });
@@ -138,7 +150,7 @@ export default function FeedCard({
               <div
                 onClick={() => {
                   toast.loading("tweet bookmark changing", { id: "5" });
-                  bookmarkRefetch().then((resp) => {
+                  bookmarkRefetchDo().then((resp) => {
                     resp.data.likeTweet
                       ? toast.success("tweet bookmarked", { id: "5" })
                       : toast.success("tweet unbookmarked", { id: "5" });

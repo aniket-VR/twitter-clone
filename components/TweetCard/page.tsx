@@ -40,6 +40,7 @@ export default function TweetCard() {
       })
         .then((result) => {
           if (result.data?.getSignedURLForTweet) {
+            console.log(result.data?.getSignedURLForTweet);
             axios
               .put(result.data?.getSignedURLForTweet, file, {
                 headers: {

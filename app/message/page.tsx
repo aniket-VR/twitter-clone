@@ -9,7 +9,6 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 
 export default function MessagesPage() {
-  // socket.emit("user-message", "hello from aniket");
 
   const { data, loading, refetch } = useQuery(GET_FOLLOWING);
   useEffect(() => {

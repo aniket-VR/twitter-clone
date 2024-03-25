@@ -5,6 +5,7 @@ const nextConfig = {
       "avatars.githubusercontent.com",
       "lh3.googleusercontent.com",
       "aniket-twitter-dev.s3.ap-south-1.amazonaws.com",
+      "twitter-server.s3.ap-south-1.amazonaws.com",
     ],
   },
 };

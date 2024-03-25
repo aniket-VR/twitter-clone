@@ -36,12 +36,29 @@ export const DELETE_TWEET = gql`
   }
 `;
 export const LIKE_TWEET = gql`
-  query Query($tweetId: String!) {
-    likeTweet(tweetId: $tweetId)
+  query Query($tweetId: String!, $check: Boolean!) {
+    likeTweet(tweetId: $tweetId, check: $check)
   }
 `;
 export const BOOKMARK_TWEET = gql`
-  query Query($tweetId: String!) {
-    bookmarkTweet(tweetId: $tweetId)
+  query Query($tweetId: String!, $check: Boolean!) {
+    bookmarkTweet(tweetId: $tweetId, check: $check)
+  }
+`;
+export const GET_ALL_BOOKMARK = gql`
+  query GetBookMark {
+    getBookMark {
+      tweet {
+        id
+        content
+        imageURL
+        author {
+          profileImageUrl
+          id
+          firstName
+          lastName
+        }
+      }
+    }
   }
 `;

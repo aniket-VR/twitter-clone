@@ -49,6 +49,7 @@ export default function UserPage() {
       setPreviousMessage(data?.data?.getPreviousMessage?.reciverMessage);
     });
   }, []);
+
   useEffect(() => {}, [socket.on]);
   socket?.on(`${param.id}-${data?.getCurrentUser?.id}`, (temp: string) => {
     console.log(temp);
@@ -77,9 +78,9 @@ export default function UserPage() {
 
   return (
     <>
-      <div className="h-screen ">
-        <div className="flex h-full flex-col justify-between ">
-          <div className="flex flex-initial items-center py-2 px-2 gap-4 border-b-[1px] border-gray-600">
+      <div className=" ">
+        <div className="flex h-screen flex-col  ">
+          <div className="flex-initial flex  items-center py-2 px-2 gap-4 border-b-[1px] border-gray-600">
             <Image
               alt="user-profile"
               src={reciverUser?.getUserFromId?.profileImageUrl}
@@ -93,7 +94,7 @@ export default function UserPage() {
           </div>
           <div
             id="message"
-            className="flex-auto mx-6 my-1 overflow-y-scroll scroll-smooth no-scrollbar"
+            className="flex-auto overflow-y-scroll no-scrollbar mx-6 my-1 "
           >
             {messageLoading
               ? LoadingUi
@@ -140,7 +141,7 @@ export default function UserPage() {
               );
             })}
           </div>
-          <div className="flex flex-initial p-3 border-t-[1px] border-gray-600  gap-2 ">
+          <div className="flex-initial flex  p-3 border-t-[1px] border-gray-600  gap-2 ">
             <input
               id="message-value"
               onChange={(e) => {
