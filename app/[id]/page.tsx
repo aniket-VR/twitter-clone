@@ -16,7 +16,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
-export default function page() {
+export default function UserProfile() {
   const params = useParams();
   const [followUser, { data: followUserStatus }] = useMutation(FOLLOW_USER);
   const [unfollowUser, { data: unfollow }] = useMutation(UNFOLLOW_USER);
@@ -33,7 +33,7 @@ export default function page() {
     }).then((data) => {
       setFollowStatus(data.data.checkFollowStaus);
     });
-  }, []);
+  });
   if (loading) return LoadingUi;
 
   if (data?.getUserFromId == null)
@@ -133,15 +133,18 @@ export default function page() {
           </div>
         </div>
         <div className="">
-          {data?.getUserFromId?.tweets.map((tweetItem: Tweet) => (
-            <FeedCard
-              tweetData={tweetItem}
-              currentStatus={
-                currentUser?.getCurrentUser?.id === data?.getUserFromId?.id
-              }
-              refetch={refetch}
-            />
-          ))}
+          {data?.getUserFromId?.tweets.map(
+            (tweetItem: Tweet, key: React.Key) => (
+              <FeedCard
+                key={key}
+                tweetData={tweetItem}
+                currentStatus={
+                  currentUser?.getCurrentUser?.id === data?.getUserFromId?.id
+                }
+                refetch={refetch}
+              />
+            )
+          )}
         </div>
       </div>
     </>

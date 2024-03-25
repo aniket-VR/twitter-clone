@@ -67,7 +67,7 @@ export default function FeedCard({
     bookmarkRefetch().then((resp) => {
       setBookMarkStatus(resp.data.bookmarkTweet);
     });
-  }, []);
+  });
 
   return (
     <div className="border-b-[1px] border-gray-600 p-4 hover:bg-slate-900 transition-all cursor-pointer">

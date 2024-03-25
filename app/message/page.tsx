@@ -9,18 +9,17 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 
 export default function MessagesPage() {
-
   const { data, loading, refetch } = useQuery(GET_FOLLOWING);
   useEffect(() => {
     refetch();
     console.log("messagespage");
-  }, []);
+  });
   if (loading) return LoadingUi;
   return (
     <div>
-      {data?.getFollowing.map((user: User) => {
+      {data?.getFollowing.map((user: User, key: React.Key) => {
         return (
-          <Link href={`/message/${user.id}`}>
+          <Link key={key} href={`/message/${user.id}`}>
             <div className="flex p-2 gap-3 border-[1px] border-gray-600">
               <span>
                 <Image

@@ -2,12 +2,11 @@
 import { CREATE_TWEET, SIGN_URL } from "@/graphql/query/tweet";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useGetAllTweet } from "@/hooks/useGetAllTweet";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import Image from "next/image";
 import React, { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import { IoMdImage } from "react-icons/io";
-import { useSignedUrlTweet } from "@/hooks/useSignedUrlTweet";
 import axios from "axios";
 import profile_url from "../../constant/profile.png";
 const tempTweetData = {
@@ -16,7 +15,9 @@ const tempTweetData = {
 };
 export default function TweetCard() {
   const { refetch } = useGetAllTweet();
-  const { refetachSigned, data: signData, loading } = useSignedUrlTweet();
+  const [refetachSigned, { data: signData, loading }] = useLazyQuery(SIGN_URL);
+
+  // const { refetachSigned, data: signData, loading } = useSignedUrlTweet();
   const { data: userInfo } = useCurrentUser();
   const CurrentUserProfileImg = userInfo?.getCurrentUser?.profileImageUrl
     ? userInfo?.getCurrentUser?.profileImageUrl
